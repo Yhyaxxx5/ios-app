@@ -9,12 +9,20 @@ workflows:
       - name: Extract source code
         script: |
           tar -xf ios_source.tar.gz
+      - name: Install Tuist
+        script: |
+          # تحميل وتثبيت أداة Tuist على السيرفر
+          curl -Ls https://install.tuist.io | bash
+          # تحديث متغيرات البيئة ليتعرف السيرفر على الأمر
+          echo 'export PATH="$HOME/.tuist/bin:$PATH"' >> $GOBAL_ENV
       - name: Generate Tuist Project
         script: |
+          export PATH="$HOME/.tuist/bin:$PATH"
           tuist generate
       - name: Build iOS App
         script: |
           xcodebuild -project ios.xcodeproj -scheme ios -configuration Release -sdk iphoneos -allowProvisioningUpdates
     artifacts:
       - build/ios/ipa/*.ipa
+
 
