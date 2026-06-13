@@ -1,0 +1,23 @@
+name: Build iOS IPA
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract source
+        run: tar -xzf ios_source.tar.gz
+
+      - name: Install Tuist
+        run: curl -Ls https://install.tuist.io | bash
+
+      - name: Generate project
+        run: tuist generate
+
+      - name: Build
+        run: xcodebuild
