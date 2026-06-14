@@ -15,7 +15,7 @@ workflows:
           curl -Ls https://get.tuist.io | bash
       - name: Generate Tuist Project
         script: |
-          curl -fsSL https://get.tuist.io | bash && export PATH=$PATH:$HOME/.tuist/bin && tuist generate --no-open
+         mise install tuist && mise exec tuist -- tuist generate
       - name: Build iOS App
         script: |
           xcodebuild -project ios.xcodeproj -scheme ios -configuration Release -sdk iphoneos -allowProvisioningUpdates
