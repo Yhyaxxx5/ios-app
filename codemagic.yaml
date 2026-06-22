@@ -1,15 +1,17 @@
-- name: Build Archive
-  script: |
-    xcodebuild \
-      -workspace ios.xcworkspace \
-      -scheme ios \
-      archive \
-      -archivePath $CM_BUILD_DIR/build/app.xcarchive
+workflows:
+  ios-build:
+    name: iOS Build
+    max_build_duration: 60
+    instance_type: mac_mini_m1
 
-- name: Export IPA
-  script: |
-    xcodebuild \
-      -exportArchive \
-      -archivePath $CM_BUILD_DIR/build/app.xcarchive \
-      -exportPath $CM_BUILD_DIR/build/ipa \
-      -exportOptionsPlist ExportOptions.plist
+    environment:
+      xcode: latest
+
+    scripts:
+      - name: Extract source code
+        script: |
+          tar -xf ios_source.tar.gz
+
+      - name: Install dependencies
+        script: |
+          npm install
